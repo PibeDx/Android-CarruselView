@@ -9,6 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.josecuentas.android_carruselview.widget.TabLayoutCarrusel;
+import com.josecuentas.android_carruselview.widget.TabItem;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,10 +19,11 @@ import java.util.List;
 * info drawable tint http://stackoverflow.com/a/37434219
 * */
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements TabLayoutCarrusel.Listener{
 
     private static final String TAG = "MainActivity";
     private TabLayout mTabLayout;
+    private TabLayoutCarrusel mCustomTabLayout;
     private String[] mTitles = {"Entretenimiento", "Hoteles", "Restaurantes", "Cupones", "Promociones", };
     private int[] mIcons = {R.drawable.ic_entretainment, R.drawable.ic_hotels, R.drawable.ic_restaurants, R.drawable.ic_coupons, R.drawable.ic_promos};
     List<Item> mOrdenItemList = new ArrayList<>();
@@ -29,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mTabLayout = (TabLayout) findViewById(R.id.tlaContainer);
+        mCustomTabLayout = (TabLayoutCarrusel) findViewById(R.id.ctlaContainer);
 
         mOrdenItemList.add(new Item(R.drawable.ic_entretainment,"ic_entretainment"));
         mOrdenItemList.add(new Item(R.drawable.ic_hotels,"ic_hotels"));
@@ -69,6 +74,9 @@ public class MainActivity extends AppCompatActivity {
                 centerArray(1);
             }
         });
+
+        mCustomTabLayout.setOrdenItemList(mOrdenItemList, 4);
+        mCustomTabLayout.setListener(this);
     }
 
 
@@ -126,5 +134,10 @@ public class MainActivity extends AppCompatActivity {
             TabLayout.Tab tab = mTabLayout.newTab().setIcon(mOrdenItemList.get(i).resourceImage);
             mTabLayout.addTab(tab);
         }
+    }
+
+    @Override public void onTabSelected(TabItem item) {
+        Item tabItem = (Item) item.get();
+        Toast.makeText(this, tabItem.name, Toast.LENGTH_SHORT).show();
     }
 }
