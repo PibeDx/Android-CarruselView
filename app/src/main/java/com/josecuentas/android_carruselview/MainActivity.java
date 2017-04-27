@@ -30,16 +30,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mTabLayout = (TabLayout) findViewById(R.id.tlaContainer);
 
-
-
         mOrdenItemList.add(new Item(R.drawable.ic_entretainment,"ic_entretainment"));
         mOrdenItemList.add(new Item(R.drawable.ic_hotels,"ic_hotels"));
         mOrdenItemList.add(new Item(R.drawable.ic_restaurants,"ic_restaurants"));
         mOrdenItemList.add(new Item(R.drawable.ic_coupons,"ic_coupons"));
         mOrdenItemList.add(new Item(R.drawable.ic_promos,"ic_promos"));
         //mOrdenItemList.add(new Item(R.drawable.ic_promos));
-
-
 
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override public void onTabSelected(TabLayout.Tab tab) {
