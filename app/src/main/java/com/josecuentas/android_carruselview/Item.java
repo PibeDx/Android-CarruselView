@@ -8,9 +8,14 @@ public class Item {
 
 
     int resourceImage;
-
+    String name;
 
     public Item(int resourceImage) {
         this.resourceImage = resourceImage;
+    }
+
+    public Item(int resourceImage, String name) {
+        this.resourceImage = resourceImage;
+        this.name = name;
     }
 }

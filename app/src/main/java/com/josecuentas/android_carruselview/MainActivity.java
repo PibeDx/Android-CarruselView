@@ -1,12 +1,20 @@
 package com.josecuentas.android_carruselview;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+
+/*
+* info drawable tint http://stackoverflow.com/a/37434219
+* */
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,12 +32,13 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        mOrdenItemList.add(new Item(R.drawable.ic_entretainment));
-        mOrdenItemList.add(new Item(R.drawable.ic_hotels));
-        mOrdenItemList.add(new Item(R.drawable.ic_restaurants));
-        mOrdenItemList.add(new Item(R.drawable.ic_coupons));
-        mOrdenItemList.add(new Item(R.drawable.ic_promos));
+        mOrdenItemList.add(new Item(R.drawable.ic_entretainment,"ic_entretainment"));
+        mOrdenItemList.add(new Item(R.drawable.ic_hotels,"ic_hotels"));
+        mOrdenItemList.add(new Item(R.drawable.ic_restaurants,"ic_restaurants"));
+        mOrdenItemList.add(new Item(R.drawable.ic_coupons,"ic_coupons"));
+        mOrdenItemList.add(new Item(R.drawable.ic_promos,"ic_promos"));
         //mOrdenItemList.add(new Item(R.drawable.ic_promos));
+
 
 
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -38,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
 
                 Log.i(TAG, "onTabSelected: position " + position);
                 centerArray(position);
+                Item tag = (Item) tab.getTag();
+                Toast.makeText(MainActivity.this, tag.name, Toast.LENGTH_SHORT).show();
             }
 
             @Override public void onTabUnselected(TabLayout.Tab tab) {
@@ -47,14 +58,19 @@ public class MainActivity extends AppCompatActivity {
                 int position = tab.getPosition();
                 Log.i(TAG, "onTabReselected: position " + position);
                 centerArray(position);
+                Item tag = (Item) tab.getTag();
+                Toast.makeText(MainActivity.this, tag.name, Toast.LENGTH_SHORT).show();
             }
         });
+
+        mTabLayout.setEnabled(false);
 
         mTabLayout.post(new Runnable() {
             @Override public void run() {
                 //mTabLayout.setupWithViewPager(mVpaContainer);
                 Log.d(TAG, "run() called");
                 setupTab(mOrdenItemList.size());
+                centerArray(1);
             }
         });
     }
@@ -66,17 +82,7 @@ public class MainActivity extends AppCompatActivity {
         int size = mOrdenItemList.size();
         final int midSize = (size / 2) + 1;
 
-
-        //4,5
-
         if ((position + 1) > midSize) {
-            /*for (int i = (size-(position + 1)); i < size; i++) {
-                itemTempList.add(mOrdenItemList.get(i));
-            }
-            for (int i = 0; i < (size-(position + 1)); i++) {
-                itemTempList.add(mOrdenItemList.get(i));
-            }*/
-
             for (int i = position-(size/2); i < size; i++) {
                 mItemTempList.add(mOrdenItemList.get(i));
             }
@@ -100,49 +106,24 @@ public class MainActivity extends AppCompatActivity {
                 mItemTempList.add(mOrdenItemList.get(i));
             }
         }
+
         mOrdenItemList = new ArrayList<>(mItemTempList);
 
-
-        /*for (int i = midSize; i < size; i++) {
-            itemTempList.add(mOrdenItemList.get(i));
-        }
-
-
-        //1,2,3
-        for (int i = position; i < size; i++) {
-            itemTempList.add(mOrdenItemList.get(i));
-        }*/
-
         for (int i = 0; i <mTabLayout.getTabCount() ; i++) {
-            if (i == midSize) {
-                mTabLayout.getTabAt(i).setIcon(mItemTempList.get(i).resourceImage);
+            if (i == (size / 2)) {
+                Drawable drawable = DrawableCompat.wrap(ContextCompat.getDrawable(this, mItemTempList.get(i).resourceImage));
+                int color = ContextCompat.getColor(this, R.color.colorAccent);
+                DrawableCompat.setTint(drawable.mutate(), color);
+                /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) DrawableCompat.setTint(drawable, color);
+                else drawable.mutate().setColorFilter(color, PorterDuff.Mode.SRC_IN);*/
+                mTabLayout.getTabAt(i).setIcon(drawable).setTag(mItemTempList.get(i));
             } else {
-                mTabLayout.getTabAt(i).setIcon(mItemTempList.get(i).resourceImage);
+                Drawable drawable = DrawableCompat.wrap(ContextCompat.getDrawable(this, mItemTempList.get(i).resourceImage));
+                mTabLayout.getTabAt(i).setIcon(drawable).setTag(mItemTempList.get(i));
+                //new BitmapDrawable();
             }
         }
     }
-
-
-    /*public void centerArray(int position) {
-        int size = mOrdenItemList.size();
-        List<Item> itemTempList = new ArrayList<>();
-        int midSize = (size / 2) + 1;
-
-
-
-        for (int i = midSize; i < size; i++) {
-            itemTempList.add(mOrdenItemList.get(i));
-        }
-
-        for (int i = 0; i < midSize; i++) {
-            itemTempList.add(mOrdenItemList.get(i));
-        }
-
-        for (int i = 0; i <mTabLayout.getTabCount() ; i++) {
-            mTabLayout.getTabAt(i).setIcon(itemTempList.get(i).resourceImage);
-        }
-
-    }*/
 
     private void setupTab(int size) {
         for (int i = 0; i < size; i++) {
