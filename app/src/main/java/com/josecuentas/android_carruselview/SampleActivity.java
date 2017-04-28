@@ -27,9 +27,13 @@ public class SampleActivity extends AppCompatActivity implements TabLayoutCarrus
         mOrdenItemList.add(new Item(R.drawable.ic_restaurants,"ic_restaurants"));
         mOrdenItemList.add(new Item(R.drawable.ic_coupons,"ic_coupons"));
         mOrdenItemList.add(new Item(R.drawable.ic_promos,"ic_promos"));
+        mOrdenItemList.add(new Item(R.drawable.ic_promos,"ic_promos"));
+        mOrdenItemList.add(new Item(R.drawable.ic_promos,"ic_promos"));
+        mOrdenItemList.add(new Item(R.drawable.ic_promos,"ic_promos"));
 
 
         mCustomTabLayout.setOrdenItemList(mOrdenItemList);
+        mCustomTabLayout.setSizeMaxTab(5);
         mCustomTabLayout.post(new Runnable() {
             @Override public void run() {
                 mCustomTabLayout.setupTab();
