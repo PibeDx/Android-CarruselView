@@ -103,7 +103,8 @@ public class TabLayoutCarrusel extends TabLayout implements TabLayout.OnTabSelec
         }
     }
 
-    public void setupTab(int size) {
+    public void setupTab() {
+        int size = mOrdenItemList.size();
         for (int i = 0; i < size; i++) {
             TabLayout.Tab tab = newTab().setIcon(mOrdenItemList.get(i).getIcon());
             addTab(tab);

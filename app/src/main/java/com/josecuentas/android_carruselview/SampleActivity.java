@@ -32,8 +32,8 @@ public class SampleActivity extends AppCompatActivity implements TabLayoutCarrus
         mCustomTabLayout.setOrdenItemList(mOrdenItemList);
         mCustomTabLayout.post(new Runnable() {
             @Override public void run() {
-                mCustomTabLayout.setupTab(mOrdenItemList.size());
-                mCustomTabLayout.centerTab(0);
+                mCustomTabLayout.setupTab();
+                mCustomTabLayout.centerTab(2);
             }
         });
         //mCustomTabLayout.setItemCenter(1);
